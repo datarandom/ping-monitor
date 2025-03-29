@@ -10,16 +10,22 @@
     <p id="status">Chargement...</p>
 
     <script>
-        // Charger le fichier JSON et afficher l'état
-        fetch('status.json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('status').innerText = `Connexion : ${data.state ? 'Établie' : 'Non établie'}`;
-            })
-            .catch(error => {
-                document.getElementById('status').innerText = "Erreur de chargement.";
-                console.error('Erreur:', error);
-            });
-    </script>
+    const timestamp = new Date().getTime();  // Crée un timestamp unique
+    fetch('status.json?timestamp=' + timestamp)  // Ajoute-le à l'URL
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP : ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('status').innerText = `Connexion : ${data.state ? 'établie' : 'non établie'}`;
+        })
+        .catch(error => {
+            document.getElementById('status').innerText = `Erreur de chargement : ${error.message}`;
+            console.error('Erreur:', error);
+        });
+</script>
+
 </body>
 </html>

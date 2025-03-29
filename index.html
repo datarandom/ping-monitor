@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Monitor</title>
+</head>
+<body>
+    <h1>État de la connexion</h1>
+    <p id="status">Chargement...</p>
+
+    <script>
+        // Charger le fichier JSON et afficher l'état
+        fetch('status.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('status').innerText = `Connexion : ${data.state ? 'Établie' : 'Non établie'}`;
+            })
+            .catch(error => {
+                document.getElementById('status').innerText = "Erreur de chargement.";
+                console.error('Erreur:', error);
+            });
+    </script>
+</body>
+</html>

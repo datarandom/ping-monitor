@@ -1,1 +1,11 @@
-{"state": false}
+{
+    "IP_RASLIGHTS": false,
+    "IP_RASMOTORS": false,
+    "IP_RASSOUND": false,
+    "IP_ARTNET_CRAYERE_1": false,
+    "IP_ARTNET_CRAYERE_2": false,
+    "IP_MOTOR_A": false,
+    "IP_MOTOR_B": false,
+    "IP_RELAYS_MOTORS": false,
+    "IP_RELAYS_CRAYERE": false
+}

@@ -4,14 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ping Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #505050; /* Gris foncé */
+            padding: 20px;
+        }
+
+        #status-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .last-updated {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #505050; /* Gris foncé */
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #e0e0e0; /* Gris clair atténué */
+            color: #505050; /* Gris foncé */
+            text-align: left;
+        }
+
+        td.status {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .online {
+            color: #000; /* Noir pour connexion établie */
+        }
+
+        .offline {
+            color: #A0A0A0; /* Gris clair pour connexion non établie */
+        }
+    </style>
 </head>
 <body>
-    <h1>État de la connexion</h1>
-    <p id="status">Chargement...</p>
+
+    <div class="container">
+        <div class="vertical-text">Retour Aux Sources</div>
+
+        <div id="status-container">
+            <p class="last-updated">Chargement...</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="status-table-body">
+                    <!-- Les valeurs seront ajoutées ici dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="vertical-text">Ping-Monitor</div>
+    </div>
 
     <script>
-    const timestamp = new Date().getTime();  // Crée un timestamp unique
-    fetch('status.json?timestamp=' + timestamp)  // Ajoute-le à l'URL
+    const timestamp = Date.now();
+
+    fetch('status.json?timestamp=' + timestamp)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
@@ -19,13 +110,30 @@
             return response.json();
         })
         .then(data => {
-            document.getElementById('status').innerText = `Connexion : ${data.state ? 'établie' : 'non établie'}`;
+            const lastUpdated = document.querySelector('.last-updated');
+            const tableBody = document.getElementById('status-table-body');
+
+            tableBody.innerHTML = ''; // Vide le tableau
+            lastUpdated.innerText = `${data.last_updated}`;
+
+            Object.entries(data).forEach(([key, value]) => {
+                if (key !== "last_updated") {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${key.replace(/_/g, ' ')}</td>
+                        <td class="status ${value ? 'online' : 'offline'}">
+                            ${value ? '✔ Établie' : '✖ Non établie'}
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
         })
         .catch(error => {
-            document.getElementById('status').innerText = `Erreur de chargement : ${error.message}`;
+            document.getElementById('status-container').innerHTML = `<p style="color: red;">Erreur de chargement : ${error.message}</p>`;
             console.error('Erreur:', error);
         });
-</script>
+    </script>
 
 </body>
 </html>

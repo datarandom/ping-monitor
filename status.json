@@ -1,11 +1,11 @@
 {
-    "last_updated": "2025-05-14 15:26:52",
+    "last_updated": "2025-05-14 17:00:17",
     "IP_RASMOTORS": false,
-    "IP_RASSOUND": true,
-    "IP_ARTNET_CRAYERE_1": true,
-    "IP_ARTNET_CRAYERE_2": true,
-    "IP_MOTOR_A": true,
-    "IP_MOTOR_B": true,
-    "IP_RELAYS_MOTORS": true,
-    "IP_RELAYS_CRAYERE": true
+    "IP_RASSOUND": false,
+    "IP_ARTNET_CRAYERE_1": false,
+    "IP_ARTNET_CRAYERE_2": false,
+    "IP_MOTOR_A": false,
+    "IP_MOTOR_B": false,
+    "IP_RELAYS_MOTORS": false,
+    "IP_RELAYS_CRAYERE": false
 }
